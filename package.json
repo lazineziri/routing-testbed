@@ -1,0 +1,14 @@
+{
+  "name": "routing-testbed",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "crosscheck": "node bench/crosscheck.mjs",
+    "bench": "node bench/bench.mjs",
+    "report": "node bench/report.mjs",
+    "calibrate": "node bench/calibrate.mjs"
+  }
+}

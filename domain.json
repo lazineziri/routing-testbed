@@ -1,0 +1,112 @@
+{
+  "domainVersion": "1.2.0",
+  "sources": {
+    "synthetic": "Invented for this testbed. Internally consistent, tied to no real model.",
+    "unverified": "Names a real product but the numbers are placeholders. Replace before drawing conclusions.",
+    "measured": "Calibrated against a live endpoint by bench/calibrate.mjs. Carries a measurement record."
+  },
+  "profiles": [
+    {
+      "id": "gen.small",
+      "provider": "synthetic",
+      "capability": "text.generation",
+      "quality": 0.84,
+      "cost": 0.004,
+      "latencyMs": 900,
+      "maxInputTokens": 8000,
+      "healthy": true,
+      "source": "synthetic"
+    },
+    {
+      "id": "gen.strong",
+      "provider": "synthetic",
+      "capability": "text.generation",
+      "quality": 0.94,
+      "cost": 0.02,
+      "latencyMs": 2200,
+      "maxInputTokens": 32000,
+      "healthy": true,
+      "source": "synthetic"
+    },
+    {
+      "id": "sum.small",
+      "provider": "synthetic",
+      "capability": "text.summarization",
+      "quality": 0.87,
+      "cost": 0.006,
+      "latencyMs": 1100,
+      "maxInputTokens": 16000,
+      "healthy": true,
+      "source": "synthetic"
+    },
+    {
+      "id": "sum.strong",
+      "provider": "synthetic",
+      "capability": "text.summarization",
+      "quality": 0.95,
+      "cost": 0.025,
+      "latencyMs": 2800,
+      "maxInputTokens": 64000,
+      "healthy": true,
+      "source": "synthetic"
+    }
+  ],
+  "tasks": [
+    {
+      "type": "email.draft",
+      "capabilities": [
+        "text.generation"
+      ],
+      "maxModelCalls": 2,
+      "qualityFloor": 0.8
+    },
+    {
+      "type": "document.summarize",
+      "capabilities": [
+        "text.summarization"
+      ],
+      "maxModelCalls": 2,
+      "qualityFloor": 0.85
+    },
+    {
+      "type": "email.send",
+      "capabilities": [
+        "email.send"
+      ],
+      "maxModelCalls": 0,
+      "qualityFloor": 0
+    },
+    {
+      "type": "calendar.find_slots",
+      "capabilities": [
+        "calendar.read"
+      ],
+      "maxModelCalls": 0,
+      "qualityFloor": 0
+    },
+    {
+      "type": "database.answer",
+      "capabilities": [
+        "database.read"
+      ],
+      "maxModelCalls": 0,
+      "qualityFloor": 0
+    },
+    {
+      "type": "project.decision.get",
+      "capabilities": [
+        "project.memory.read"
+      ],
+      "maxModelCalls": 0,
+      "qualityFloor": 0
+    },
+    {
+      "type": "project.fact.get",
+      "capabilities": [
+        "project.memory.read"
+      ],
+      "maxModelCalls": 0,
+      "qualityFloor": 0
+    }
+  ]
+}

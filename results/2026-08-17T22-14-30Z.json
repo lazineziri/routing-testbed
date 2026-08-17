@@ -1,0 +1,465 @@
+{
+  "runId": "2026-08-17T22-14-30Z",
+  "startedAt": "2026-08-17T22:14:30.882Z",
+  "finishedAt": "2026-08-17T22:14:54.390Z",
+  "durationSeconds": 23.5,
+  "machine": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpuModel": "Apple M1 Pro",
+    "cpuCount": 8,
+    "totalMemoryGB": 16,
+    "node": "v22.20.0"
+  },
+  "generatedFrom": "bench/bench.mjs",
+  "domainVersion": "1.2.0",
+  "config": {
+    "WORKLOAD": 2000,
+    "WARMUP": 200,
+    "REPEAT_RATE": 0.6,
+    "DETERMINISM_RUNS": 500,
+    "CONCURRENCY": 32,
+    "TRIALS": 5
+  },
+  "workload": {
+    "requests": 2000,
+    "uniqueInputs": 819,
+    "repeatShare": 0.5905
+  },
+  "stacks": {
+    "express": {
+      "health": {
+        "ok": true,
+        "stack": "node-express",
+        "node": "v22.20.0",
+        "domainVersion": "1.2.0",
+        "domainFingerprint": "28c753eed410224a",
+        "stateEntries": 4
+      },
+      "policies": {
+        "deterministic": {
+          "policy": "deterministic",
+          "requests": 2000,
+          "routingMicros": {
+            "p50": {
+              "median": 5,
+              "min": 4.5,
+              "max": 10.209,
+              "spreadPct": 114.2,
+              "trials": 5
+            },
+            "p95": {
+              "median": 11.875,
+              "min": 8.629,
+              "max": 24.083,
+              "spreadPct": 130.1,
+              "trials": 5
+            },
+            "p99": {
+              "median": 17.545,
+              "min": 14.459,
+              "max": 41.425,
+              "spreadPct": 153.7,
+              "trials": 5
+            }
+          },
+          "outcomes": {
+            "state": 312,
+            "tool": 1475,
+            "model": 213,
+            "unresolved": 0
+          },
+          "providers": {
+            "sum.small": 114,
+            "gen.small": 99
+          },
+          "sources": {
+            "synthetic": 213
+          },
+          "noModelRate": 0.8935,
+          "totalModelCalls": 213,
+          "totalCostMicros": 1080000,
+          "totalSimulatedProviderMs": 214500,
+          "sequentialWallMs": 932.3,
+          "countsStableAcrossTrials": true
+        },
+        "frugal": {
+          "policy": "frugal",
+          "requests": 2000,
+          "routingMicros": {
+            "p50": {
+              "median": 4.375,
+              "min": 3.958,
+              "max": 4.583,
+              "spreadPct": 14.3,
+              "trials": 5
+            },
+            "p95": {
+              "median": 8.34,
+              "min": 7.583,
+              "max": 10.169,
+              "spreadPct": 31,
+              "trials": 5
+            },
+            "p99": {
+              "median": 14.293,
+              "min": 13.044,
+              "max": 16.626,
+              "spreadPct": 25.1,
+              "trials": 5
+            }
+          },
+          "outcomes": {
+            "state": 0,
+            "tool": 1475,
+            "model": 525,
+            "unresolved": 0
+          },
+          "providers": {
+            "sum.small": 290,
+            "gen.small": 235
+          },
+          "sources": {
+            "synthetic": 525
+          },
+          "noModelRate": 0.7375,
+          "totalModelCalls": 525,
+          "totalCostMicros": 2680000,
+          "totalSimulatedProviderMs": 530500,
+          "sequentialWallMs": 445.7,
+          "countsStableAcrossTrials": true
+        },
+        "naive": {
+          "policy": "naive",
+          "requests": 2000,
+          "routingMicros": {
+            "p50": {
+              "median": 4.25,
+              "min": 3.875,
+              "max": 4.917,
+              "spreadPct": 24.5,
+              "trials": 5
+            },
+            "p95": {
+              "median": 10.462,
+              "min": 7.088,
+              "max": 12.586,
+              "spreadPct": 52.6,
+              "trials": 5
+            },
+            "p99": {
+              "median": 17.545,
+              "min": 12.877,
+              "max": 33.296,
+              "spreadPct": 116.4,
+              "trials": 5
+            }
+          },
+          "outcomes": {
+            "state": 0,
+            "tool": 1475,
+            "model": 525,
+            "unresolved": 0
+          },
+          "providers": {
+            "sum.strong": 290,
+            "gen.strong": 235
+          },
+          "sources": {
+            "synthetic": 525
+          },
+          "noModelRate": 0.7375,
+          "totalModelCalls": 525,
+          "totalCostMicros": 11950000,
+          "totalSimulatedProviderMs": 1329000,
+          "sequentialWallMs": 463.3,
+          "countsStableAcrossTrials": true
+        }
+      },
+      "determinism": {
+        "deterministic": {
+          "sequentialRuns": 500,
+          "sequentialDistinct": 1,
+          "decisionFunctionStable": true,
+          "concurrentStatelessDistinct": 1,
+          "concurrentStatelessStable": true,
+          "concurrentStatefulRequests": 32,
+          "concurrentServedFromState": 31,
+          "concurrentCalledModel": 1
+        },
+        "frugal": {
+          "sequentialRuns": 500,
+          "sequentialDistinct": 1,
+          "decisionFunctionStable": true,
+          "concurrentStatelessDistinct": 1,
+          "concurrentStatelessStable": true,
+          "concurrentStatefulRequests": 32,
+          "concurrentServedFromState": 0,
+          "concurrentCalledModel": 32
+        },
+        "naive": {
+          "sequentialRuns": 500,
+          "sequentialDistinct": 1,
+          "decisionFunctionStable": true,
+          "concurrentStatelessDistinct": 1,
+          "concurrentStatelessStable": true,
+          "concurrentStatefulRequests": 32,
+          "concurrentServedFromState": 0,
+          "concurrentCalledModel": 32
+        }
+      },
+      "throughput": {
+        "deterministic": {
+          "concurrency": 32,
+          "requests": 2000,
+          "decisionsPerSecond": {
+            "median": 8677,
+            "min": 7541,
+            "max": 9000,
+            "spreadPct": 16.8,
+            "trials": 5
+          }
+        },
+        "frugal": {
+          "concurrency": 32,
+          "requests": 2000,
+          "decisionsPerSecond": {
+            "median": 9311,
+            "min": 8829,
+            "max": 9517,
+            "spreadPct": 7.4,
+            "trials": 5
+          }
+        },
+        "naive": {
+          "concurrency": 32,
+          "requests": 2000,
+          "decisionsPerSecond": {
+            "median": 9369,
+            "min": 9124,
+            "max": 9602,
+            "spreadPct": 5.1,
+            "trials": 5
+          }
+        }
+      }
+    },
+    "dotnet": {
+      "health": {
+        "ok": true,
+        "stack": "dotnet-aspnetcore",
+        "runtime": "10.0.2",
+        "domainVersion": "1.2.0",
+        "domainFingerprint": "28c753eed410224a",
+        "stateEntries": 4
+      },
+      "policies": {
+        "deterministic": {
+          "policy": "deterministic",
+          "requests": 2000,
+          "routingMicros": {
+            "p50": {
+              "median": 5.2,
+              "min": 3.7,
+              "max": 6.75,
+              "spreadPct": 58.7,
+              "trials": 5
+            },
+            "p95": {
+              "median": 14.9,
+              "min": 13.1,
+              "max": 16.3,
+              "spreadPct": 21.5,
+              "trials": 5
+            },
+            "p99": {
+              "median": 31.908,
+              "min": 30.411,
+              "max": 36.115,
+              "spreadPct": 17.9,
+              "trials": 5
+            }
+          },
+          "outcomes": {
+            "state": 312,
+            "tool": 1475,
+            "model": 213,
+            "unresolved": 0
+          },
+          "providers": {
+            "sum.small": 114,
+            "gen.small": 99
+          },
+          "sources": {
+            "synthetic": 213
+          },
+          "noModelRate": 0.8935,
+          "totalModelCalls": 213,
+          "totalCostMicros": 1080000,
+          "totalSimulatedProviderMs": 214500,
+          "sequentialWallMs": 548.3,
+          "countsStableAcrossTrials": true
+        },
+        "frugal": {
+          "policy": "frugal",
+          "requests": 2000,
+          "routingMicros": {
+            "p50": {
+              "median": 3.3,
+              "min": 3,
+              "max": 3.4,
+              "spreadPct": 12.1,
+              "trials": 5
+            },
+            "p95": {
+              "median": 9.4,
+              "min": 6.5,
+              "max": 11.6,
+              "spreadPct": 54.3,
+              "trials": 5
+            },
+            "p99": {
+              "median": 18.202,
+              "min": 15,
+              "max": 37.624,
+              "spreadPct": 124.3,
+              "trials": 5
+            }
+          },
+          "outcomes": {
+            "state": 0,
+            "tool": 1475,
+            "model": 525,
+            "unresolved": 0
+          },
+          "providers": {
+            "sum.small": 290,
+            "gen.small": 235
+          },
+          "sources": {
+            "synthetic": 525
+          },
+          "noModelRate": 0.7375,
+          "totalModelCalls": 525,
+          "totalCostMicros": 2680000,
+          "totalSimulatedProviderMs": 530500,
+          "sequentialWallMs": 590.6,
+          "countsStableAcrossTrials": true
+        },
+        "naive": {
+          "policy": "naive",
+          "requests": 2000,
+          "routingMicros": {
+            "p50": {
+              "median": 3.5,
+              "min": 3.3,
+              "max": 3.6,
+              "spreadPct": 8.6,
+              "trials": 5
+            },
+            "p95": {
+              "median": 12.005,
+              "min": 5.5,
+              "max": 16.51,
+              "spreadPct": 91.7,
+              "trials": 5
+            },
+            "p99": {
+              "median": 29.704,
+              "min": 15.005,
+              "max": 58.901,
+              "spreadPct": 147.8,
+              "trials": 5
+            }
+          },
+          "outcomes": {
+            "state": 0,
+            "tool": 1475,
+            "model": 525,
+            "unresolved": 0
+          },
+          "providers": {
+            "sum.strong": 290,
+            "gen.strong": 235
+          },
+          "sources": {
+            "synthetic": 525
+          },
+          "noModelRate": 0.7375,
+          "totalModelCalls": 525,
+          "totalCostMicros": 11950000,
+          "totalSimulatedProviderMs": 1329000,
+          "sequentialWallMs": 499.8,
+          "countsStableAcrossTrials": true
+        }
+      },
+      "determinism": {
+        "deterministic": {
+          "sequentialRuns": 500,
+          "sequentialDistinct": 1,
+          "decisionFunctionStable": true,
+          "concurrentStatelessDistinct": 1,
+          "concurrentStatelessStable": true,
+          "concurrentStatefulRequests": 32,
+          "concurrentServedFromState": 31,
+          "concurrentCalledModel": 1
+        },
+        "frugal": {
+          "sequentialRuns": 500,
+          "sequentialDistinct": 1,
+          "decisionFunctionStable": true,
+          "concurrentStatelessDistinct": 1,
+          "concurrentStatelessStable": true,
+          "concurrentStatefulRequests": 32,
+          "concurrentServedFromState": 0,
+          "concurrentCalledModel": 32
+        },
+        "naive": {
+          "sequentialRuns": 500,
+          "sequentialDistinct": 1,
+          "decisionFunctionStable": true,
+          "concurrentStatelessDistinct": 1,
+          "concurrentStatelessStable": true,
+          "concurrentStatefulRequests": 32,
+          "concurrentServedFromState": 0,
+          "concurrentCalledModel": 32
+        }
+      },
+      "throughput": {
+        "deterministic": {
+          "concurrency": 32,
+          "requests": 2000,
+          "decisionsPerSecond": {
+            "median": 9698,
+            "min": 9547,
+            "max": 9917,
+            "spreadPct": 3.8,
+            "trials": 5
+          }
+        },
+        "frugal": {
+          "concurrency": 32,
+          "requests": 2000,
+          "decisionsPerSecond": {
+            "median": 10111,
+            "min": 6298,
+            "max": 10772,
+            "spreadPct": 44.2,
+            "trials": 5
+          }
+        },
+        "naive": {
+          "concurrency": 32,
+          "requests": 2000,
+          "decisionsPerSecond": {
+            "median": 9752,
+            "min": 9057,
+            "max": 11290,
+            "spreadPct": 22.9,
+            "trials": 5
+          }
+        }
+      }
+    }
+  }
+}

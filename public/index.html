@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Routing testbed - run 2026-08-17T22-14-30Z</title>
+<style>
+body{max-width:60rem;margin:2rem auto;padding:0 1rem;font-family:system-ui,sans-serif;font-size:15px;line-height:1.55;color:#111}
+h1{font-size:1.5rem;margin:0 0 .25rem}
+h3{font-size:.95rem;margin:1.25rem 0 .35rem}
+h2{font-size:1.15rem;margin:2.25rem 0 .5rem;border-bottom:1px solid #ccc;padding-bottom:.25rem}
+p{margin:.6rem 0;max-width:70ch}
+dl{margin:.5rem 0;display:grid;grid-template-columns:max-content 1fr;gap:.1rem 1rem;font-size:.9rem}
+dt{color:#555}
+dd{margin:0}
+table{border-collapse:collapse;margin:.75rem 0;font-size:.9rem}
+th,td{border:1px solid #ccc;padding:.35rem .6rem;text-align:left}
+th{background:#f2f2f2;font-weight:600}
+td.n,th.n{text-align:right;font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.wrap{overflow-x:auto}
+code,.mono{font-family:ui-monospace,Menlo,monospace}
+pre{background:#f6f6f6;border:1px solid #ddd;padding:.75rem;overflow-x:auto;font-size:.85rem}
+ul{max-width:70ch}
+footer{margin-top:2.5rem;border-top:1px solid #ccc;padding-top:.75rem;font-size:.85rem;color:#555}
+@media(prefers-color-scheme:dark){
+body{background:#111;color:#ddd}
+h2{border-color:#444}th{background:#1c1c1c}th,td{border-color:#444}
+pre{background:#1a1a1a;border-color:#333}dt{color:#999}footer{border-color:#444;color:#999}
+}
+</style>
+</head>
+<body>
+
+<h1>Routing testbed</h1>
+<p>Three routing policies implemented twice, in Node/Express and .NET 10, measured against the same workload.</p>
+
+<dl>
+<dt>Run</dt><dd class="mono">2026-08-17T22-14-30Z</dd>
+<dt>Started</dt><dd class="mono">2026-08-17 22:14:30 UTC</dd>
+<dt>Duration</dt><dd class="mono">23.5s</dd>
+<dt>Host</dt><dd class="mono">Apple M1 Pro, 8 cores, darwin/arm64</dd>
+<dt>Runtimes</dt><dd class="mono">Node · Express v22.20.0, .NET · ASP.NET Core 10.0.2</dd>
+<dt>Workload</dt><dd class="mono">2,000 requests, 819 unique, 59.1% repeats</dd>
+<dt>Method</dt><dd class="mono">200 warmup discarded, 5 trials, concurrency 32</dd>
+<dt>Domain</dt><dd class="mono">28c753eed410224a</dd>
+</dl>
+
+<h2>Result: cost, decomposed</h2>
+<p>The <code>frugal</code> policy picks the cheapest eligible model but never reuses state. It exists to
+separate the two mechanisms: naive to frugal is model selection alone, frugal to deterministic is reuse alone.</p>
+<div class="wrap"><table>
+<caption style="text-align:left;padding:.25rem 0;font-size:.85rem;color:#555">Both runtimes produced these counts identically</caption>
+<thead><tr><th>Policy</th><th class="n">Cost units</th><th class="n">vs naive</th><th class="n">Model calls</th><th class="n">No-model</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">11.95</td><td class="n">—</td><td class="n">525</td><td class="n">73.8%</td></tr>
+<tr><td>frugal</td><td class="n">2.68</td><td class="n">-77.6%</td><td class="n">525</td><td class="n">73.8%</td></tr>
+<tr><td>deterministic</td><td class="n">1.08</td><td class="n">-91.0%</td><td class="n">213</td><td class="n">89.3%</td></tr>
+</tbody></table></div>
+<p>Of the 91.0% total reduction, <strong>77.6 points come from model
+selection and 13.4 points from state reuse</strong>, on a workload that is
+59.1% repeats. Caching is the smaller half. Both runtimes produced these counts
+identically, and they did not vary across the 5 trials.</p>
+
+<h2>Node · Express</h2>
+<dl>
+<dt>Runtime</dt><dd class="mono">v22.20.0</dd>
+<dt>Domain fingerprint</dt><dd class="mono">28c753eed410224a</dd>
+</dl>
+
+<h3>Counts</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th class="n">Model calls</th><th class="n">From state</th><th class="n">Tool only</th><th class="n">No-model</th><th class="n">Cost units</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">525</td><td class="n">0</td><td class="n">1,475</td><td class="n">73.8%</td><td class="n">11.95</td></tr>
+<tr><td>frugal</td><td class="n">525</td><td class="n">0</td><td class="n">1,475</td><td class="n">73.8%</td><td class="n">2.68</td></tr>
+<tr><td>deterministic</td><td class="n">213</td><td class="n">312</td><td class="n">1,475</td><td class="n">89.3%</td><td class="n">1.08</td></tr>
+</tbody></table></div>
+
+<h3>Routing overhead and throughput</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th class="n">p50 (us)</th><th class="n">p95 (us)</th><th class="n">p99 (us)</th><th class="n">Decisions/sec</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">4.3 (±25%)</td><td class="n">10.5 (±53%)</td><td class="n">17.5</td><td class="n">9,369 (±5%)</td></tr>
+<tr><td>frugal</td><td class="n">4.4 (±14%)</td><td class="n">8.3 (±31%)</td><td class="n">14.3</td><td class="n">9,311 (±7%)</td></tr>
+<tr><td>deterministic</td><td class="n">5.0 (±114%)</td><td class="n">11.9 (±130%)</td><td class="n">17.5</td><td class="n">8,677 (±17%)</td></tr>
+</tbody></table></div>
+<p>p50 across policies: 4.3-5.0us.
+Median of 5 trials; the bracketed figure is the spread between fastest and slowest trial.</p>
+
+<h3>Providers routed to</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th>Model calls by profile</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="mono">sum.strong x290, gen.strong x235</td></tr>
+<tr><td>frugal</td><td class="mono">sum.small x290, gen.small x235</td></tr>
+<tr><td>deterministic</td><td class="mono">sum.small x114, gen.small x99</td></tr>
+</tbody></table></div>
+
+<h3>Determinism</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th class="n">Distinct over 500 runs</th><th class="n">Distinct over 32 concurrent</th><th class="n">Race: from state</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">1</td><td class="n">1</td><td class="n">0/32</td></tr>
+<tr><td>frugal</td><td class="n">1</td><td class="n">1</td><td class="n">0/32</td></tr>
+<tr><td>deterministic</td><td class="n">1</td><td class="n">1</td><td class="n">31/32</td></tr>
+</tbody></table></div>
+
+<h2>.NET · ASP.NET Core</h2>
+<dl>
+<dt>Runtime</dt><dd class="mono">10.0.2</dd>
+<dt>Domain fingerprint</dt><dd class="mono">28c753eed410224a</dd>
+</dl>
+
+<h3>Counts</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th class="n">Model calls</th><th class="n">From state</th><th class="n">Tool only</th><th class="n">No-model</th><th class="n">Cost units</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">525</td><td class="n">0</td><td class="n">1,475</td><td class="n">73.8%</td><td class="n">11.95</td></tr>
+<tr><td>frugal</td><td class="n">525</td><td class="n">0</td><td class="n">1,475</td><td class="n">73.8%</td><td class="n">2.68</td></tr>
+<tr><td>deterministic</td><td class="n">213</td><td class="n">312</td><td class="n">1,475</td><td class="n">89.3%</td><td class="n">1.08</td></tr>
+</tbody></table></div>
+
+<h3>Routing overhead and throughput</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th class="n">p50 (us)</th><th class="n">p95 (us)</th><th class="n">p99 (us)</th><th class="n">Decisions/sec</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">3.5 (±9%)</td><td class="n">12.0 (±92%)</td><td class="n">29.7</td><td class="n">9,752 (±23%)</td></tr>
+<tr><td>frugal</td><td class="n">3.3 (±12%)</td><td class="n">9.4 (±54%)</td><td class="n">18.2</td><td class="n">10,111 (±44%)</td></tr>
+<tr><td>deterministic</td><td class="n">5.2 (±59%)</td><td class="n">14.9 (±22%)</td><td class="n">31.9</td><td class="n">9,698 (±4%)</td></tr>
+</tbody></table></div>
+<p>p50 across policies: 3.3-5.2us.
+Median of 5 trials; the bracketed figure is the spread between fastest and slowest trial.</p>
+
+<h3>Providers routed to</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th>Model calls by profile</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="mono">sum.strong x290, gen.strong x235</td></tr>
+<tr><td>frugal</td><td class="mono">sum.small x290, gen.small x235</td></tr>
+<tr><td>deterministic</td><td class="mono">sum.small x114, gen.small x99</td></tr>
+</tbody></table></div>
+
+<h3>Determinism</h3>
+<div class="wrap"><table>
+<thead><tr><th>Policy</th><th class="n">Distinct over 500 runs</th><th class="n">Distinct over 32 concurrent</th><th class="n">Race: from state</th></tr></thead>
+<tbody>
+<tr><td>naive</td><td class="n">1</td><td class="n">1</td><td class="n">0/32</td></tr>
+<tr><td>frugal</td><td class="n">1</td><td class="n">1</td><td class="n">0/32</td></tr>
+<tr><td>deterministic</td><td class="n">1</td><td class="n">1</td><td class="n">31/32</td></tr>
+</tbody></table></div>
+
+<h2>Notes on the runtime tables</h2>
+<ul>
+<li>Counts are identical in both runtimes and did not vary across the 5 trials. They are exact.</li>
+<li>Timings are not. No policy is measurably slower than another: spread reaches 114% while the
+medians sit within a couple of microseconds. A single run once appeared to show deterministic routing costing
+about 4us more per decision; five trials showed that was scheduler noise.</li>
+<li>Sequential determinism runs reset state first, so the stateful path cannot be mistaken for instability.</li>
+<li>The concurrent column uses a task touching no shared state, so any variance there would be real nondeterminism.</li>
+<li>The race column is expected to split: identical concurrent requests race, one calls the model and the rest read
+what it wrote. That is the state store, not routing.</li>
+<li>Cross-runtime agreement is checked by <code>bench/crosscheck.mjs</code>: 63 of 63 decision hashes identical.</li>
+</ul>
+
+
+
+
+
+<h2>What this does not show</h2>
+<ul>
+<li><strong>Real money.</strong> No provider was called. Cost units are the policy's choices multiplied by constants in <code>domain.json</code>. The ratio between policies is meaningful; the absolute number is not a bill.</li>
+<li><strong>Provider latency.</strong> Same reasoning. A real run adds network variance, rate limits and retries, none of which are modelled.</li>
+<li><strong>Output quality.</strong> The cheaper model is assumed to clear the task's quality floor because the profile table says so. Whether its output is good enough is the question this testbed cannot answer, and it decides whether frugal routing is a good idea at all.</li>
+<li>The 73.8% no-model floor is structural: five of the seven task types have no model profile, so they can never produce a model call. Only the move to 89.3% was earned.</li>
+</ul>
+<p>Measured directly: routing overhead, throughput, determinism, cross-runtime agreement, and the count of model calls avoided.</p>
+
+<h2>Run history</h2>
+<div class="wrap"><table>
+<thead><tr><th class="n">Started</th><th class="n">Duration</th><th class="n">Calls avoided</th><th class="n">No-model</th><th class="n">p50 range</th></tr></thead>
+<tbody>
+<tr><td class="n">2026-08-17 22:14:30Z (this run)</td><td class="n">23.5s</td><td class="n">312</td><td class="n">89.3%</td><td class="n">3.3-5.2 us</td></tr>
+</tbody></table></div>
+<p>Every run is archived under <code>results/</code> by start time. Timings move with machine load; the counts should not.</p>
+
+<h2>Reproducing</h2>
+<pre>cd express &amp;&amp; npm install &amp;&amp; PORT=3001 npm start
+cd dotnet  &amp;&amp; PORT=3002 dotnet run
+
+node bench/crosscheck.mjs   # 63/63 decisions must match
+node bench/bench.mjs        # writes results.json + results/&lt;run&gt;.json
+node bench/report.mjs       # regenerates this page</pre>
+<p>The workload comes from a seeded PRNG, so the request sequence is identical on every machine. Both runtimes
+read the same <code>domain.json</code>; its fingerprint is printed by each <code>/health</code> endpoint and must
+match before any comparison is valid.</p>
+
+<footer>
+Generated by <code>bench/report.mjs</code> from <code>results.json</code>. Counts stable across trials:
+yes. Decision function stable: yes.
+Overhead includes HTTP loopback and JSON handling, so it is an upper bound on the decision cost itself.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "routing-testbed-express",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Measures deterministic vs naive task routing on Node + Express.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.js",
+    "bench": "node bench/bench.mjs"
+  },
+  "dependencies": { "express": "^5.1.0" }
+}
